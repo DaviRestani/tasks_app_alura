@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_app/components/task.dart';
+import 'package:tasks_app/data/task_inherited.dart';
+import 'package:tasks_app/screens/form_screen.dart';
 
 class InicialScreen extends StatefulWidget {
   const InicialScreen({Key? key}) : super(key: key);
+
   @override
   State<InicialScreen> createState() => _InicialScreenState();
 }
 
 class _InicialScreenState extends State<InicialScreen> {
-  bool opacidade = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,42 +18,16 @@ class _InicialScreenState extends State<InicialScreen> {
         leading: Container(),
         title: const Text('Tarefas'),
       ),
-      body: AnimatedOpacity(
-        opacity: opacidade ? 1 : 0,
-        duration: const Duration(milliseconds: 800),
-        child: ListView(
-          children: const [
-            Task(
-                'Aprender Flutter',
-                'assets/images/dash.png',
-                3),
-            Task(
-                'Ir para a academia',
-                'assets/images/academia.jpg',
-                3),
-            Task(
-                'Jogar videogame',
-                'assets/images/videogame.jpg',
-                1),
-            Task(
-                'Meditar',
-                'assets/images/meditar.jpeg',
-                4),
-            Task(
-                'Fazer o TCC',
-                'assets/images/estudar.jpg',
-                5),
-            SizedBox(height: 80,)
-          ],
-        ),
+      body: ListView(
+        children: TaskInherited.of(context).taskList,
+        padding: EdgeInsets.only(top: 8, bottom: 70),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            opacidade = !opacidade;
-          });
+          Navigator.push(
+              context, MaterialPageRoute(builder: (contextNew) => FormScreen(taskContext: context,)));
         },
-        child: const Icon(Icons.remove_red_eye),
+        child: const Icon(Icons.add),
       ),
     );
   }
