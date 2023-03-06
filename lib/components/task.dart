@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_app/components/difficulty.dart';
+import 'package:tasks_app/data/task_dao.dart';
 
 class Task extends StatefulWidget {
   final String nome;
@@ -16,8 +17,6 @@ class Task extends StatefulWidget {
 }
 
 class _TaskState extends State<Task> {
-
-
   bool assetOrNetwork() {
     if (widget.foto.contains('http')) {
       return false;
@@ -34,7 +33,7 @@ class _TaskState extends State<Task> {
           Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: widget.nivel >= 10 ? Colors.purple : Colors.blue),
+                color: widget.nivel >= 20 ? Colors.teal : Colors.blue),
             height: 140,
           ),
           Column(
@@ -59,13 +58,13 @@ class _TaskState extends State<Task> {
                         borderRadius: BorderRadius.circular(4),
                         child: assetOrNetwork()
                             ? Image.asset(
-                                widget.foto,
-                                fit: BoxFit.cover,
-                              )
+                          widget.foto,
+                          fit: BoxFit.cover,
+                        )
                             : Image.network(
-                                widget.foto,
-                                fit: BoxFit.cover,
-                              ),
+                          widget.foto,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Column(
@@ -89,6 +88,9 @@ class _TaskState extends State<Task> {
                       height: 52,
                       width: 52,
                       child: ElevatedButton(
+                        onLongPress: (){
+                          TaskDao().delete(widget.nome);
+                        },
                           onPressed: () {
                             setState(() {
                               widget.nivel++;
@@ -140,4 +142,20 @@ class _TaskState extends State<Task> {
       ),
     );
   }
+
+  // Color _changecolors() {
+  //   if(widget.nivel >= 10){
+  //     return Color(Colors.orange as int);
+  //   }
+  //   else if(widget.nivel >= 30){
+  //     return Color(Colors.grey as int);
+  //   }
+  //   else if(widget.nivel >= 50){
+  //     return Color(Colors.yellow as int);
+  //   }
+  //   return Color(Colors.blue as int);
+  // }
 }
+
+
+
